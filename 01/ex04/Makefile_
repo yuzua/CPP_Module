@@ -1,0 +1,24 @@
+CXX = c++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+NAME = replace_
+SRCS = main_.cpp replace_.cpp
+OBJS = $(SRCS:.cpp=.o)
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
+
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -f $(NAME)
+	rm -f tests_/tmp tests_/tmp.replace
+
+re: fclean all
+
+test: $(NAME)
+	bash tests_/run_tests_.sh
+
+.PHONY: all clean fclean re test

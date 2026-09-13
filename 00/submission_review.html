@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPP Module 00 — 提出前レビュー</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --border: #2d3a4f;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --ok: #3fb950;
+      --warn: #d29922;
+      --bad: #f85149;
+      --info: #58a6ff;
+      --mono: "Cascadia Code", "Consolas", "Monaco", monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    h1 { font-size: 1.75rem; margin: 0 0 0.25rem; }
+    .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+    h2 {
+      font-size: 1.2rem;
+      margin: 2rem 0 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+    .card .num { font-size: 2rem; font-weight: 700; line-height: 1.2; }
+    .card .label { color: var(--muted); font-size: 0.85rem; }
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+    .bad { color: var(--bad); }
+    .info { color: var(--info); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th { color: var(--muted); font-weight: 600; }
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge-ok { background: rgba(63,185,80,.15); color: var(--ok); }
+    .badge-warn { background: rgba(210,153,34,.15); color: var(--warn); }
+    .badge-bad { background: rgba(248,81,73,.15); color: var(--bad); }
+    .badge-info { background: rgba(88,166,255,.15); color: var(--info); }
+    pre, .terminal {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      line-height: 1.45;
+      margin: 0.75rem 0;
+    }
+    .terminal .prompt { color: var(--ok); }
+    .terminal .out { color: var(--text); }
+    .note {
+      background: rgba(88,166,255,.08);
+      border-left: 3px solid var(--info);
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.92rem;
+    }
+    .note-warn {
+      background: rgba(210,153,34,.08);
+      border-left-color: var(--warn);
+    }
+    ul { padding-left: 1.25rem; }
+    li { margin: 0.35rem 0; }
+    .verdict {
+      background: linear-gradient(135deg, rgba(63,185,80,.12), rgba(88,166,255,.08));
+      border: 1px solid rgba(63,185,80,.35);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-top: 2rem;
+    }
+    .verdict h3 { margin: 0 0 0.5rem; color: var(--ok); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>CPP Module 00 — 提出前レビュー</h1>
+    <p class="meta">対象: <code>00/ex00</code>, <code>00/ex01</code>, <code>00/ex02</code> &nbsp;|&nbsp; 静的コードレビュー（コンパイル未実行）</p>
+
+    <div class="summary">
+      <div class="card">
+        <div class="num ok">0</div>
+        <div class="label">致命（0 / -42点）</div>
+      </div>
+      <div class="card">
+        <div class="num warn">3</div>
+        <div class="label">軽微な注意点</div>
+      </div>
+      <div class="card">
+        <div class="num ok">3/3</div>
+        <div class="label">演習の骨格</div>
+      </div>
+      <div class="card">
+        <div class="num info">—</div>
+        <div class="label">ex02 は合格任意</div>
+      </div>
+    </div>
+
+    <div class="verdict">
+      <h3>総合判定: 提出可能</h3>
+      <p>課題の必須要件・禁止事項は満たしています。SEARCH の <code>abc</code> 入力問題は <code>clear()</code> + <code>ignore()</code> で修正済みです。残りは評価時の説明や UX に関する軽微な点です。提出前に 42 マシンで <code>make</code> と動作確認を行ってください。</p>
+    </div>
+
+    <h2>一般規則（全演習共通）</h2>
+    <table>
+      <thead>
+        <tr><th>項目</th><th>状態</th><th>詳細</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>コンパイルフラグ</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td>全 Makefile: <code>c++ -Wall -Wextra -Werror -std=c++98</code></td>
+        </tr>
+        <tr>
+          <td><code>using namespace</code> / <code>friend</code></td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td>自分のコードに使用なし</td>
+        </tr>
+        <tr>
+          <td><code>printf</code> / <code>*alloc</code> / <code>free</code></td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td>使用なし</td>
+        </tr>
+        <tr>
+          <td>STL コンテナ / &lt;algorithm&gt;</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td>自分のコードに使用なし（<code>tests.cpp</code> は学校配布）</td>
+        </tr>
+        <tr>
+          <td>ヘッダに関数実装</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td>実装はすべて .cpp</td>
+        </tr>
+        <tr>
+          <td>インクルードガード</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td><code>Contact.hpp</code>, <code>PhoneBook.hpp</code>, <code>Account.hpp</code></td>
+        </tr>
+        <tr>
+          <td>Makefile 規則</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td><code>all / clean / fclean / re</code>, <code>.PHONY</code>, <code>re: fclean all</code></td>
+        </tr>
+        <tr>
+          <td>コンパイル確認</td>
+          <td><span class="badge badge-warn">未実行</span></td>
+          <td>この環境に C++ コンパイラなし。42 マシンで <code>make</code> を実行してください</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>ex00 — Megaphone</h2>
+    <table>
+      <thead>
+        <tr><th>要件</th><th>状態</th><th>詳細</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>提出ファイル</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td><code>Makefile</code>, <code>megaphone.cpp</code></td>
+        </tr>
+        <tr>
+          <td>引数なし</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td><code>* LOUD AND UNBEARABLE FEEDBACK NOISE *</code></td>
+        </tr>
+        <tr>
+          <td>大文字変換 + 改行</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td>英字のみ大文字化、空白・記号はそのまま</td>
+        </tr>
+        <tr>
+          <td>C++ らしい実装</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td><code>std::cout</code>, <code>argc/argv</code></td>
+        </tr>
+        <tr>
+          <td>符号付き char への <code>toupper</code></td>
+          <td><span class="badge badge-warn">注意</span></td>
+          <td>課題例では問題にならないが、厳密には <code>unsigned char</code> キャスト推奨</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>期待される出力（ex00）</h3>
+    <pre class="terminal"><span class="prompt">$></span> ./megaphone "shhhhh... I think the students are asleep..."
+<span class="out">SHHHHH... I THINK THE STUDENTS ARE ASLEEP</span>
+
+<span class="prompt">$></span> ./megaphone Damnit" ! " "Sorry students, I thought this thing was off."
+<span class="out">DAMNIT ! SORRY STUDENTS, I THOUGHT THIS THING WAS OFF.</span>
+
+<span class="prompt">$></span> ./megaphone
+<span class="out">* LOUD AND UNBEARABLE FEEDBACK NOISE *</span></pre>
+
+    <h2>ex01 — My Awesome PhoneBook</h2>
+    <table>
+      <thead>
+        <tr><th>要件</th><th>状態</th><th>詳細</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>PhoneBook</code> / <code>Contact</code> クラス</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td>インスタンスとして生成。命名・ファイル名も一致</td>
+        </tr>
+        <tr>
+          <td>最大 8 件 / 9 件目は最古を上書き</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td>リングバッファ実装</td>
+        </tr>
+        <tr>
+          <td>動的確保禁止</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td><code>Contact _contacts[8]</code>、<code>new</code> なし</td>
+        </tr>
+        <tr>
+          <td>5 フィールド / 空欄禁止</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td><code>readNonEmptyLine</code> で空文字列を拒否</td>
+        </tr>
+        <tr>
+          <td>ADD / SEARCH / EXIT</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td>その他コマンドは無視</td>
+        </tr>
+        <tr>
+          <td>SEARCH 一覧（幅10・右寄せ・|・切り詰め）</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td><code>iomanip</code> (<code>setw</code>, <code>right</code>) 使用</td>
+        </tr>
+        <tr>
+          <td>実行ファイル名</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td><code>phonebook</code></td>
+        </tr>
+        <tr>
+          <td>SEARCH で <code>abc</code> 入力</td>
+          <td><span class="badge badge-ok">修正済</span></td>
+          <td><code>clear()</code> + <code>ignore()</code> で failbit 復旧 → コマンド待ちに戻る</td>
+        </tr>
+        <tr>
+          <td>成功時 index 入力後の改行処理</td>
+          <td><span class="badge badge-warn">注意</span></td>
+          <td>成功パスに <code>ignore('\n')</code> が無い。次の <code>getline</code> が空行を1回読む可能性あり</td>
+        </tr>
+        <tr>
+          <td>空の電話帳で SEARCH</td>
+          <td><span class="badge badge-warn">注意</span></td>
+          <td>何も表示せず return。固まったように見えることがある</td>
+        </tr>
+        <tr>
+          <td>空白のみの名前</td>
+          <td><span class="badge badge-warn">注意</span></td>
+          <td><code>"   "</code> は空ではないので保存される。厳しい評価者は指摘しうる</td>
+        </tr>
+        <tr>
+          <td>ADD 中 EOF で <code>exit(0)</code></td>
+          <td><span class="badge badge-warn">注意</span></td>
+          <td>リークはないが <code>break</code> の方が一貫。減点対象になりにくい</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>期待される出力（ex01 SEARCH 一覧）</h3>
+    <pre class="terminal"><span class="out">     index|first name| last name|  nickname|
+         0|     Alice|     Smith|      Ally|
+         1|VeryLongFi|  Lastname|        JD|</span></pre>
+    <p class="note">10文字超は9文字 + <code>.</code>。各列幅10、右寄せ、<code>|</code> 区切り。</p>
+
+    <h3>動作フロー（修正後 SEARCH）</h3>
+    <pre class="terminal"><span class="prompt">Enter a command:</span> SEARCH
+<span class="out">     index|first name| last name|  nickname|
+         0|      John|       Doe|        JD|</span>
+<span class="prompt">Index:</span> abc
+<span class="out">（エラー表示なし → コマンド待ちに戻る）</span>
+<span class="prompt">Enter a command:</span> EXIT</pre>
+
+    <h2>ex02 — The Job Of Your Dreams</h2>
+    <table>
+      <thead>
+        <tr><th>要件</th><th>状態</th><th>詳細</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>提出ファイル</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td><code>Makefile</code>, <code>Account.cpp</code>, <code>Account.hpp</code>, <code>tests.cpp</code></td>
+        </tr>
+        <tr>
+          <td>ログ形式一致</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td><code>created</code>, <code>deposit</code>, <code>withdrawal:refused</code>, <code>closed</code> 等</td>
+        </tr>
+        <tr>
+          <td>static メンバー</td>
+          <td><span class="badge badge-ok">OK</span></td>
+          <td>定義・更新・表示あり</td>
+        </tr>
+        <tr>
+          <td>Module 00 合格</td>
+          <td><span class="badge badge-info">任意</span></td>
+          <td>ex02 未完了でも Module 00 は合格可能</td>
+        </tr>
+        <tr>
+          <td>private <code>Account(void)</code></td>
+          <td><span class="badge badge-info">説明可</span></td>
+          <td>配布ヘッダの禁止用宣言。未実装でリンク可（呼ばれないため）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>ログ比較（タイムスタンプ除く）</h3>
+    <table>
+      <thead>
+        <tr><th>イベント</th><th>期待形式</th><th>実装</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>作成</td><td><code>index:N;amount:M;created</code></td><td><span class="badge badge-ok">一致</span></td></tr>
+        <tr><td>預金</td><td><code>p_amount:…;deposit:…;amount:…;nb_deposits:…</code></td><td><span class="badge badge-ok">一致</span></td></tr>
+        <tr><td>拒否</td><td><code>withdrawal:refused</code></td><td><span class="badge badge-ok">一致</span></td></tr>
+        <tr><td>閉鎖</td><td><code>index:N;amount:M;closed</code></td><td><span class="badge badge-ok">一致</span></td></tr>
+      </tbody>
+    </table>
+
+    <h2>提出前チェックリスト</h2>
+    <ul>
+      <li>42 マシンで <code>cd 00/ex00 &amp;&amp; make</code> → <code>./megaphone</code> テスト</li>
+      <li>42 マシンで <code>cd 00/ex01 &amp;&amp; make</code> → ADD 8件 + 9件目上書き + SEARCH + <code>abc</code> 入力</li>
+      <li>42 マシンで <code>cd 00/ex02 &amp;&amp; make</code> → <code>./tests | sed 's/\[.*\] //'</code> と log 比較（任意）</li>
+      <li>リポジトリに <code>ex00/</code>, <code>ex01/</code>, <code>ex02/</code> が正しいパスにあること</li>
+    </ul>
+
+    <div class="note note-warn">
+      <strong>残っている軽微な点（提出ブロッカーではない）:</strong>
+      <ol>
+        <li>SEARCH 成功後、行末の <code>\n</code> を <code>ignore</code> していない → 次コマンド入力で空行が1回消費されることがある</li>
+        <li>空の電話帳 SEARCH は無言 return</li>
+        <li>空白のみのフィールドは保存可能</li>
+      </ol>
+      時間があれば 1 だけ直すと UX が改善します（成功・失敗・範囲外のすべての return 前に <code>ignore</code>）。
+    </div>
+  </div>
+</body>
+</html>

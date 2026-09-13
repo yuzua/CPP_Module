@@ -73,6 +73,8 @@ void PhoneBook::searchContact(void) const {
 		return;
 	}
 
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
 	if (indexInput < 0 || this->_contactCount <= indexInput)
 		return;
 
